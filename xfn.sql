@@ -3,9 +3,18 @@ DROP DATABASE IF EXISTS xfn;
 CREATE DATABASE xfn CHARSET=UTF8;
 USE xfn;
 
-#管理员信息表 ：xfn_admin
+/*管理员信息表 ：xfn_admin*/
 CREATE TABLE xfn_admin(
     aid TINYINT PRIMARY KEY AUTO_INCREMENT,
-    aname VARCHAR(32),
+    aname VARCHAR(32) UNIQUE,
     apwd VARCHAR(64)
 ); 
+INSERT INTO xfn_admin VALUES
+(NULL,'admin',PASSWORD('123456')),
+(NULL,'boss',PASSWORD('999999'));
+
+/*全局设置*/
+CREATE TABLE xfn_settings(
+    sid  INT PRIMARY KEY AUTO_INCREMENT,
+
+);
