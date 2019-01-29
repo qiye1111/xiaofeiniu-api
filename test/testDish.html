@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id='btn1'>获取所有菜品</button> 
+    <button id='btn2'>获取每一道所有菜品</button> 
+    <input type="text" id='inputDesc'> 
+    <input type="file" id='inputFile'>      
+    <button id='btn0' type='button'>异步上传菜品图片</button>     
+    <button id='btn3'>添加所有菜品</button>     
+    <button id='btn4'>删除所有菜品</button>     
+    <button id='btn5'>修改所有菜品</button> 
+    <h3>文件上传</h3>
+    <form action="http://127.0.0.1:8090/admin/dish/image" method="POST" enctype="multipart/form-data">
+        <input type="file" name='dishImg'><br>
+        <input type="submit">
+    </form>    
+     
+    <script src='./axios.min.js'></script>
+    <script>        
+        btn1.onclick=function(){            
+            axios.get('http://127.0.0.1:8090/admin/dish').then((result)=>{
+                console.log('获取成功')
+                console.log(result.data)
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }
+        btn0.onclick=function(){ 
+            //异步上传文件：手工创建一个multipart/form-data形式的请求主体
+            var data=new FormData();           
+            //向请求主体中追加要提交的数据
+            data.append('descript',inputDesc.value);
+            //向请求主题中追加用户选中的文件 --dir(解释对象)
+            //console.dir(inputFile);
+            data.append('dishImg',inputFile.files[0]);
+            //使用axios将请求主体异步提交给服务器
+            axios.post('http://127.0.0.1:8090/admin/dish/image',data).then((res)=>{
+                console.log(res.data)
+                alert(JSON.stringify(res.data))
+            }).catch((err)=>{
+                console.log(err)
+            })
+            
+        }
+        btn3.onclick=function(){
+            var data={
+                title:'烧饼',
+                imgUrl:'123456.jpg',
+                price:35,
+                detail:'小烧饼详情介绍',
+                categoryId:3
+            };
+            axios.post('http://127.0.0.1:8090/admin/dish',data).then((res)=>{
+                console.log(res)
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }
+    </script>
+</body>
+</html>
